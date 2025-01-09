@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board-container");
   const statusElement = document.getElementById("status");
@@ -49,6 +48,5 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
-
 
 

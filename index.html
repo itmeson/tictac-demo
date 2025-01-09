@@ -14,24 +14,35 @@
     <div>
       <label>Player 1:</label>
       <label><input type="radio" name="player1-mode" value="human" checked> Human</label>
-      <label><input type="radio" name="player1-mode" value="beginner"> Beginner Bot</label>
-      <label><input type="radio" name="player1-mode" value="trained"> Trained Bot</label>
+      <label><input type="radio" name="player1-mode" value="beginner"> Bot 1</label>
+      <label><input type="radio" name="player1-mode" value="trained"> Bot 2</label>
     </div>
     <div>
       <label>Player 2:</label>
       <label><input type="radio" name="player2-mode" value="human" checked> Human</label>
-      <label><input type="radio" name="player2-mode" value="beginner"> Beginner Bot</label>
-      <label><input type="radio" name="player2-mode" value="trained"> Trained Bot</label>
+      <label><input type="radio" name="player2-mode" value="beginner"> Bot 1</label>
+      <label><input type="radio" name="player2-mode" value="trained"> Bot 2</label>
     </div>
     <div>
         <label for="bot-delay">Bot Move Delay (seconds):</label>
         <input type="number" id="bot-delay" value="0" min="0" step="0.1">
+        <div>
+          <label for="wait-reveal">Wait to reveal move instead of using delay:</label>
+          <input type="checkbox" id="wait-reveal">
+      </div>
+      <button id="reveal-move" type="button" style="display: none;">Reveal Next Move</button>
       </div>
     <button type="button" id="start-game">Start Game</button>
   </form>
 
   <div id="board-container"></div>
   <p id="status"></p>
+
+  <button id="show-playbook">Show Playbook</button>
+  <div id="playbook-container" style="display: none;">
+      <h3>Playbook</h3>
+      <div id="playbook-grid"></div>
+  </div>
   <script src="menace.js"></script>
   <script src="script.js"></script>
 </body>

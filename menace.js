@@ -85,7 +85,7 @@ class Menace extends Agent {
 class Game {
 constructor(agentX, agentO, board, boardElement, statusElement, botDelay=0) {
     this.board = board; // Use the Board instance as the state manager
-    this.agents = { X: agentX, O: agentO };
+    this.agents = { "X": agentX, "O": agentO };
     this.currentPlayer = "X";
     this.boardElement = boardElement;
     this.statusElement = statusElement;
@@ -172,7 +172,8 @@ async play() {
     }
   }
   
-  async triggerBotMove(agent) {
+  // version of triggerBotMove that works but doesn't handle waiting for permission to reveal bot moves
+  /*async triggerBotMove(agent) {
     console.log("triggering a bot move", this.botDelay, agent.piece, this.board.positions )
     if (this.botDelay > 0) {
       await new Promise((resolve) => setTimeout(resolve, this.botDelay));
@@ -180,8 +181,42 @@ async play() {
     const move = await agent.move(this.board.positions);
     //this.handleMove(move);
     return move;
+  }*/
+
+    async triggerBotMove(agent) {
+      const waitRevealCheckbox = document.getElementById("wait-reveal");
+      const revealButton = document.getElementById("reveal-move");
+  
+      if (waitRevealCheckbox.checked) {
+          console.log("Wait to reveal mode is active.");
+  
+          // Show the "Reveal Next Move" button
+          revealButton.style.display = "block";
+  
+          // Wait for the user to click the button
+          await new Promise((resolve) => {
+              revealButton.onclick = () => {
+                  console.log("Reveal button clicked.");
+                  revealButton.style.display = "none"; // Hide the button
+                  resolve(); // Allow the move to proceed
+              };
+          });
+      } else {
+          console.log(`Using bot delay: ${this.botDelay}ms`);
+  
+          // Use the specified delay if "Wait to Reveal" is not active
+          if (this.botDelay > 0) {
+              await new Promise((resolve) => setTimeout(resolve, this.botDelay));
+          }
+      }
+  
+      // Proceed with the bot's move
+      const move = await agent.move(this.board.positions);
+      console.log(`Bot chose move: ${move}`);
+      await this.handleMove(move); // Ensure this is processed in sequence
   }
   
+
 
   endGame() {
     const cells = document.querySelectorAll(".board-cell");
