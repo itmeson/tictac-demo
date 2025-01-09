@@ -26,3 +26,13 @@
     font-size: 24px;
     cursor: pointer;
   }
+  #playbook-container {
+    display: none; /* Initially hidden */
+    margin: 20px auto; /* Center horizontally */
+    width: fit-content; /* Shrink to fit content */
+    text-align: center; /* Center text inside */
+    border: 1px solid #ccc; /* Optional: border for clarity */
+    padding: 10px;
+    background-color: #f9f9f9; /* Optional: light background */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+}

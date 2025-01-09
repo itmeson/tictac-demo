@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize board and game
     board = new Board("html_table", handleMove);
     game = new Game(player1, player2, board, boardElement, statusElement, botDelay);
-
+    window.currentGame = game;
     // Start the game
     game.play();
   });
@@ -50,3 +50,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+document.getElementById("show-playbook").addEventListener("click", () => {
+  const playbookContainer = document.getElementById("playbook-container");
+  const playbookGrid = document.getElementById("playbook-grid");
+
+  // Clear any previous playbook display
+  playbookGrid.innerHTML = "";
+  playbookContainer.style.display = "block"; // Show the playbook container
+
+  // Get the current game and player
+  const game = window.currentGame; // Assuming `currentGame` is globally accessible
+  const currentAgent = game.agents[game.currentPlayer];
+
+  if (currentAgent instanceof Menace && currentAgent.playbook) {
+      const boardKey = game.board.positions.join("");
+      const weights = currentAgent.playbook[boardKey];
+
+      if (weights) {
+          // Create a 3x3 grid of weights
+          for (let i = 0; i < 3; i++) {
+              const row = document.createElement("div");
+              row.style.display = "flex";
+
+              for (let j = 0; j < 3; j++) {
+                  const index = i * 3 + j;
+                  const weight = weights[index] || 0; // Default to 0 if no weight exists
+
+                  const cell = document.createElement("div");
+                  cell.textContent = weight;
+                  cell.style.width = "50px";
+                  cell.style.height = "50px";
+                  cell.style.textAlign = "center";
+                  cell.style.border = "1px solid black";
+
+                  row.appendChild(cell);
+              }
+
+              playbookGrid.appendChild(row);
+          }
+      } else {
+          playbookGrid.innerHTML = "<p>No playbook entry for this board state.</p>";
+      }
+  } else {
+      playbookGrid.innerHTML = "<p>The current player is not a trained bot.</p>";
+  }
+});
