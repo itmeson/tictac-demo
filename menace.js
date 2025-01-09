@@ -25,49 +25,61 @@ class Agent {
   }
   
 class Menace extends Agent {
-constructor(piece, playbookFile = null) {
-  super(piece, false);
-  this.playbook = null; // Initialize the playbook as null
-  console.log("Menace playbook path:", playbookFile);
-  if (playbookFile) {
-      this.loadPlaybook(playbookFile);
+  constructor(piece, playbookFile = null) {
+    super(piece, false);
+    this.playbook = null; // Initialize the playbook as null
+    this.playbookLoaded = false;
+    console.log("Menace playbook path:", playbookFile);
+    if (playbookFile) {
+        this.loadPlaybook(playbookFile);
+    }
   }
-}
 
-async loadPlaybook(playbookFile) {
-  try {
-      const response = await fetch(playbookFile);
-      this.playbook = await response.json();
-      console.log("Menace playbook loaded:", this.playbook);
-      console.log("check for an an entry", this.playbook["---------"])
-  } catch (error) {
-      console.error("Error loading Menace playbook:", error);
+  async loadPlaybook(playbookFile) {
+    try {
+        const response = await fetch(playbookFile);
+        this.playbook = await response.json();
+        this.playbookLoaded = true; // Mark playbook as loaded
+        console.log("Menace playbook loaded:", this.playbook);
+    } catch (error) {
+        console.error("Error loading Menace playbook:", error);
+    }
   }
-}
 
-move(board) {
-    const key = board.join('');
-    //console.log(key, this.playbook[key])
-    if (!this.playbook[key]) {
-      console.log('making random move')
-    return this.randomMove(board);
+  async move(board) {
+    if (!this.playbookLoaded) {
+        console.warn("Playbook not loaded yet, waiting...");
+        await new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (this.playbookLoaded) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 10); // Check every 10ms
+        });
     }
-    console.log('using playbook', key, this.playbook[key])
-    const moves = Object.keys(this.playbook[key]);
-    const weights = Object.values(this.playbook[key]);
-    return this.weightedRandomChoice(moves, weights);
-}
+      const key = board.join('');
+      //console.log(key, this.playbook[key])
+      if (!this.playbook[key]) {
+        console.log(`${key} note found, making random move`)
+      return this.randomMove(board);
+      }
+      console.log('using playbook', key, this.playbook[key])
+      const moves = Object.keys(this.playbook[key]);
+      const weights = Object.values(this.playbook[key]);
+      return this.weightedRandomChoice(moves, weights);
+  }
 
-weightedRandomChoice(moves, weights) {
-    const sum = weights.reduce((a, b) => a + b, 0);
-    let rand = Math.random() * sum;
-    for (let i = 0; i < moves.length; i++) {
-    rand -= weights[i];
-    if (rand <= 0) {
-        return parseInt(moves[i], 10);
-    }
-    }
-}
+  weightedRandomChoice(moves, weights) {
+      const sum = weights.reduce((a, b) => a + b, 0);
+      let rand = Math.random() * sum;
+      for (let i = 0; i < moves.length; i++) {
+      rand -= weights[i];
+      if (rand <= 0) {
+          return parseInt(moves[i], 10);
+      }
+      }
+  }
 }
   
 class Game {
