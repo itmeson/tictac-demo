@@ -159,29 +159,10 @@ async play() {
       if (!currentAgent.isHuman) {
         this.triggerBotMove(currentAgent);
       }
-
-      //if (this.board.updateCallback) {
-       // this.board.updateCallback(index); // Notify the game loop
-      //}
-
-      // If the next player is a bot, trigger their move
-      //const currentAgent = this.agents[this.currentPlayer];
-      //if (!currentAgent.isHuman) {
-      //  await this.triggerBotMove(currentAgent);
-      //}
     }
   }
   
-  // version of triggerBotMove that works but doesn't handle waiting for permission to reveal bot moves
-  /*async triggerBotMove(agent) {
-    console.log("triggering a bot move", this.botDelay, agent.piece, this.board.positions )
-    if (this.botDelay > 0) {
-      await new Promise((resolve) => setTimeout(resolve, this.botDelay));
-    }
-    const move = await agent.move(this.board.positions);
-    //this.handleMove(move);
-    return move;
-  }*/
+
 
     async triggerBotMove(agent) {
       const waitRevealCheckbox = document.getElementById("wait-reveal");
@@ -213,7 +194,7 @@ async play() {
       // Proceed with the bot's move
       const move = await agent.move(this.board.positions);
       console.log(`Bot chose move: ${move}`);
-      await this.handleMove(move); // Ensure this is processed in sequence
+      return move;
   }
   
 
