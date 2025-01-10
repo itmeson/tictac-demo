@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const player2 = createAgent("O", player2Mode);
 
     // Initialize board and game
+    statusElement.innerText = "Player X's turn";
+    document.getElementById('show-playbook').style.display = "block"
     board = new Board("html_table", handleMove);
     game = new Game(player1, player2, board, boardElement, statusElement, botDelay);
     window.currentGame = game;

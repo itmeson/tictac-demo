@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Tic-Tac-Toe</h1>
+  <h1>Tic-Tac-Toe Demonstration</h1>
 
   <form id="player-mode-form">
-    <h2>Player Modes</h2>
+    <h3>Player Modes</h3>
     <div>
       <label>Player 1:</label>
       <label><input type="radio" name="player1-mode" value="human" checked> Human</label>
@@ -23,22 +23,28 @@
       <label><input type="radio" name="player2-mode" value="beginner"> Bot 1</label>
       <label><input type="radio" name="player2-mode" value="trained"> Bot 2</label>
     </div>
+    <br/>
     <div>
-        <label for="bot-delay">Bot Move Delay (seconds):</label>
+        <label for="bot-delay">Delay between bot moves (seconds):</label>
         <input type="number" id="bot-delay" value="0" min="0" step="0.1">
         <div>
-          <label for="wait-reveal">Wait to reveal move instead of using delay:</label>
+          <label for="wait-reveal">Or Wait to reveal move instead of using delay:</label>
           <input type="checkbox" id="wait-reveal">
-      </div>
-      <button id="reveal-move" type="button" style="display: none;">Reveal Next Move</button>
-      </div>
+        </div>
+    </div>
+    <br/>
     <button type="button" id="start-game">Start Game</button>
   </form>
 
-  <div id="board-container"></div>
-  <p id="status"></p>
+  <div id="board-container">
+  </div>
+  <div id="game-status">
+    <button id="reveal-move" type="button" style="display: none;">Reveal Next Move</button>
+    <p id="status"></p>
+    <button id="show-playbook" style="display: none;">Show Playbook</button>
 
-  <button id="show-playbook">Show Playbook</button>
+  </div>
+
   <div id="playbook-container" style="display: none;">
       <h3>Playbook</h3>
       <div id="playbook-grid"></div>

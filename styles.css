@@ -36,3 +36,38 @@
     background-color: #f9f9f9; /* Optional: light background */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
 }
+
+#player-mode-form {
+  margin: 20px auto;
+  width: fit-content;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#game-status {
+  width: fit-content;
+  margin: 20px auto;
+  text-align: center;
+}
+
+#bot-delay {
+  margin-left: 40px;
+  width: 40px;
+}
+
+#wait-reveal {
+  width: 20px;
+}
+
+#start-game {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  height: 40px;
+}
+
+#board-container {
+  margin-top: 40px;
+}
